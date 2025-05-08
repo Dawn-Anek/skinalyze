@@ -1,0 +1,134 @@
+/* p9.css */
+
+body {
+  font-family: 'Prompt', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #fffaf9;
+  color: #000;
+}
+
+.navbar {
+  background-color: #e26d6d;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 40px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+.logo img { width: 50px; height: 50px; }
+
+.nav-menu {
+  display: flex;
+  gap: 100px;
+}
+
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 20px;
+  padding: 10px;
+  border-radius: 20px;
+  transition: background-color .3s;
+}
+
+.nav-link:hover { background-color: rgba(255,255,255,0.2); }
+
+.result-header {
+  text-align: center;
+  margin: 40px 20px;
+}
+
+.subtitle {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.result-header h1 {
+  font-size: 80px;
+  margin: 10px 0;
+}
+
+.result-header h2 {
+  font-size: 28px;
+  margin-bottom: 30px;
+}
+
+.main-image {
+  display: block;
+  margin: 0 auto 30px;
+  width: 30%;
+  border-radius: 12px;
+}
+
+.recommend-box {
+  background-color: #ffd278;
+  display: inline-block;
+  padding: 12px 30px;
+  border-radius: 150px;
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+
+.advice-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto 40px;
+  max-width: 600px;
+  text-align: center;
+}
+
+.advice-list li {
+  margin-bottom: 15px;
+  font-size: 20px;
+}
+
+.bottom-bar {
+  background-color: #dd6c6c;
+  height: 60px;
+  width: 100%;
+}
+
+
+/* Detail-page button */
+.detail-button {
+  /* Reset */
+  all: unset;
+  /* Layout & sizing */
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 25px;
+  text-align: center;
+  /* Typography */
+  font-family: 'Prompt', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  /* Colors */
+  background-color: #d06a6a;
+  color: #fff;
+  /* Interaction */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  /* Shadow */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.detail-button:hover {
+  background-color: #b05a5a;
+  transform: translateY(-2px);
+}
+
+.detail-button:active {
+  background-color: #a04f4f;
+  transform: translateY(0);
+}

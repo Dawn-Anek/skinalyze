@@ -1,0 +1,156 @@
+<!-- p4.html -->
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Welcome – SKIN ALYZE</title>
+  <link rel="stylesheet" href="p4.css">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <a href="p4.html" class="logo">
+      <img src="image/logo2.png" alt="Logo">
+      SKIN<br>ALYZE
+    </a>
+    <nav class="nav-menu">
+      <a href="p11.html" class="nav-link active">รายการโรคผิวหนัง</a>
+      <a href="p8.html" class="nav-link">คู่มือการใช้งาน</a>
+      <a href="p10.html" class="nav-link">เกี่ยวกับเรา</a>
+    </nav>
+    <div class="menu-icon">☰</div>
+  </header>
+
+  <!-- Hero + Upload -->
+  <section class="hero">
+    <h2>ยินดีต้อนรับเข้าสู่</h2>
+    <h1>SKIN<br>ALYZE</h1>
+
+    <!-- ข้อความเตือน -->
+    <p class="warning-text">⚠️ คำเตือน ⚠️  <br>
+      กรุณาอ่านคู่มือการใช้งานอย่างละเอียดก่อนใช้งานทุกครั้ง </p>
+
+    <div class="upload-wrapper">
+      <label class="scan-button">
+        <img src="image/camera.png" alt="camera icon" class="icon">
+        Upload Image
+        <input type="file" accept="image/*" id="upload-image">
+      </label>
+
+      <div id="preview-container">
+        <img id="image-preview" src="#" alt="Image Preview">
+      </div>
+      <button id="process-button">Process Image</button>
+    </div>
+  </section>
+
+  <!-- (the rest of your p4.html content: Why Skin Check, Keypoints, Footer) -->
+
+  <!-- Preview + API call script -->
+  <script>
+    const uploadInput   = document.getElementById('upload-image');
+    const previewImage  = document.getElementById('image-preview');
+    const processButton = document.getElementById('process-button');
+    let selectedFile    = null;
+
+    // initial hide
+    previewImage.style.display  = 'none';
+    processButton.style.display = 'none';
+
+    uploadInput.addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      selectedFile = file;
+      const reader = new FileReader();
+      reader.onload = evt => {
+        previewImage.src              = evt.target.result;
+        previewImage.style.display    = 'block';
+        processButton.style.display   = 'inline-block';
+      };
+      reader.readAsDataURL(file);
+    });
+
+    processButton.addEventListener('click', async () => {
+      if (!selectedFile) return alert('โปรดเลือกไฟล์รูปภาพก่อน');
+
+      // keep image for result page
+      sessionStorage.setItem('uploadedImage', previewImage.src);
+
+      const form = new FormData();
+      form.append('file', selectedFile);
+
+      try {
+        const res = await fetch('http://localhost:8090/predict', {
+          method: 'POST',
+          body: form
+        });
+        if (!res.ok) throw new Error((await res.json()).detail || res.statusText);
+        const { label, confidence } = await res.json();
+
+        // redirect to summary page
+        const params = new URLSearchParams({
+          label,
+          confidence: confidence.toFixed(2)
+        });
+        window.location.href = `p9.html?${params.toString()}`;
+      } catch (err) {
+        console.error(err);
+        alert('เกิดข้อผิดพลาด: ' + err.message);
+      }
+    });
+  </script>
+      <!-- Why Skin Check -->
+  <section class="why-skin-check">
+    <div class="left">
+      <img src="image/man.png" alt="ทำไมการตรวจผิวหนังสำคัญ">
+    </div>
+    <div class="right">
+      <h3>ทำไมการตรวจผิวหนังจึงสำคัญ?</h3>
+      <p>การตรวจผิวหนังเป็นสิ่งสำคัญเพราะช่วยตรวจพบโรคผิวหนังตั้งแต่ระยะเริ่มต้น เช่น มะเร็งผิวหนัง โรคผิวหนังอักเสบ และการติดเชื้อ ซึ่งสามารถป้องกันการแพร่กระจาย ลดความรุนแรงของโรค และเพิ่มโอกาสในการรักษาให้ได้ผลดี</p>
+    </div>
+  </section>
+
+  <section class="feature-keypoint-container">
+    <h3 class="keypoints-title">📍 KEY POINTS</h3>
+  
+    <div class="keypoints-features-wrapper">
+      <div class="keypoints">
+        <ul>
+          <li>
+            <img src="image/ai-assistant.png" alt="AI Icon" class="key-icon">
+            <div>
+              <strong>AI-Powered Skin Screening</strong>
+              ใช้ Deep Learning ร่วมกับระบบสี CIELAB ในการวิเคราะห์ภาพถ่ายผิวหนังจากมือถือ เพื่อวินิจฉัยความผิดปกติได้อย่างแม่นยำและรวดเร็ว
+            </div>
+          </li>
+          <li>
+            <img src="image/chat.png" alt="User Icon" class="key-icon">
+            <div>
+              <strong>Accessible & User-Friendly</strong>
+              เป็นเว็บแอปพลิเคชันที่ใช้งานง่าย รองรับทุกอุปกรณ์ แจ้งผลทันทีในไม่กี่วินาที พร้อมคำแนะนำการดูแล ช่วยให้ผู้ใช้ตรวจสุขภาพผิวได้จากทุกที่
+            </div>
+          </li>
+          <li>
+            <img src="image/health-check.png" alt="Health Icon" class="key-icon">
+            <div>
+              <strong>Health Impact & Efficiency</strong>
+              ผู้ใช้อย่างการตรวจโรคผิวหนังเบื้องต้นได้ด้วยตนเอง ลดความจำเป็นต้องเดินทาง ประหยัดเวลาและค่าใช้จ่าย
+            </div>
+          </li>
+        </ul>
+      </div>
+    
+      <div class="features">
+        <button>ใช้งานง่าย</button>
+        <button>แม่นยำ</button>
+        <button>รวดเร็ว</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="bottom-bar"></div>
+
+</body>
+</html>

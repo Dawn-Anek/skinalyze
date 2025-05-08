@@ -1,0 +1,124 @@
+<!-- p9.html -->
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Result – SKIN ALYZE</title>
+  <link rel="stylesheet" href="p9.css">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <a href="p4.html" class="logo">
+      <img src="image/logo2.png" alt="Logo">
+      SKIN<br>ALYZE
+    </a>
+    <nav class="nav-menu">
+      <a href="p11.html" class="nav-link active">รายการโรคผิวหนัง</a>
+      <a href="p8.html" class="nav-link">คู่มือการใช้งาน</a>
+      <a href="p10.html" class="nav-link">เกี่ยวกับเรา</a>
+    </nav>
+    <div class="menu-icon">☰</div>
+  </header>
+
+  <!-- Result Summary -->
+  <div class="result-header">
+    <p class="subtitle">ผลลัพธ์การวิเคราะห์</p>
+    <h1></h1>
+    <h2></h2>
+    <img id="result-image" class="main-image" src="#" alt="Uploaded Image">
+    <div class="recommend-box"></div>
+    <ul class="advice-list"></ul>
+    <div id="detail-link" style="margin-top:20px;"></div>
+  </div>
+
+  <div class="bottom-bar"></div>
+
+  <script>
+    const diseaseInfo = {
+      Acne: {
+        title: 'สิว (Acne)',
+        advice: [
+          '💊 ใช้ผลิตภัณฑ์ล้างหน้าสำหรับผิวเป็นสิว ที่อ่อนโยน',
+          '💧 ใช้ครีมให้ความชุ่มชื้นปราศจากน้ำมัน',
+          '🚫 หลีกเลี่ยงการบีบหรือเกา เพื่อลดโอกาสเกิดแผลเป็น'
+        ],
+        detailPage: 'p7.html'
+      },
+      Eczema: {
+        title: 'ผื่นแพ้ผิวหนัง (Eczema)',
+        advice: [
+          '💊 ใช้ครีมให้ความชุ่มชื้น ลดอาการแห้ง คัน',
+          '🚿 อาบน้ำอุ่น ไม่ร้อนเกินไป หรือไม่อาบน้ำนาน',
+          '🩺 ปรึกษาแพทย์หากอาการไม่ดีขึ้นภายใน 1-2 สัปดาห์'
+        ],
+        detailPage: 'p5.html'
+      },
+      Psoriasis: {
+        title: 'สะเก็ดเงิน (Psoriasis)',
+        advice: [
+          '💊 ใช้ ครีมสเตียรอยด์ หรือครีมที่ช่วยลดการอักเสบ',
+          '☀️ หลีกเลี่ยงปัจจัยกระตุ้น เช่น ความเครียด แอลกอฮอล์ และบุหรี่',
+          '🩺 หากอาการหนัก พบแพทย์ผิวหนังเพื่อวางแผนรักษา'
+        ],
+        detailPage: 'p6.html'
+      },
+      Normal: {
+        title: 'ผิวปกติ (Normal)',
+        advice: [
+          '💧 รักษาการบำรุงผิวเป็นประจำ อย่างสม่ำเสมอ',
+          '🧴 ทาครีมกันแดดก่อนออกแดด',
+          '💤 พักผ่อนให้เพียงพอ'
+        ],
+        detailPage: 'p8.html'
+      }
+    };
+
+    // read query params
+    const params     = new URLSearchParams(window.location.search);
+    const label      = params.get('label');
+    const confidence = params.get('confidence');
+
+    // display image
+    const imgDataUrl = sessionStorage.getItem('uploadedImage');
+    const resultImg  = document.getElementById('result-image');
+    if (imgDataUrl) {
+      resultImg.src = imgDataUrl;
+    } else {
+      resultImg.alt = 'No image available';
+    }
+
+    // populate texts & advice
+    if (label && diseaseInfo[label]) {
+      const info = diseaseInfo[label];
+      document.querySelector('.result-header h1').textContent =
+        `" ${label.toUpperCase()} "`;
+      document.querySelector('.result-header h2').textContent =
+        `⭐️ ${info.title} ⭐️`;
+      document.querySelector('.recommend-box').textContent =
+        `ความมั่นใจ: ${Math.round(confidence * 100)}%`;
+
+      const advUl = document.querySelector('.advice-list');
+      advUl.innerHTML = '';
+      info.advice.forEach(text => {
+        const li = document.createElement('li');
+        li.textContent = text;
+        advUl.appendChild(li);
+      });
+
+      // detail page button
+      document.getElementById('detail-link').innerHTML = `
+        <a href="${info.detailPage}">
+          <button class="detail-button">
+            ดูรายละเอียดเพิ่มเติม
+          </button>
+        </a>`;
+    } else {
+      document.querySelector('.result-header').innerHTML =
+        '<p class="subtitle">ไม่พบผลลัพธ์</p>';
+    }
+  </script>
+</body>
+</html>
